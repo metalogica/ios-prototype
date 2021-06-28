@@ -1,7 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 
 export default function App() {
@@ -9,6 +10,13 @@ export default function App() {
   const [ recording, setRecording ] = useState(false);
   const [ savedRecordings, setSavedRecordings ] = useState([])
   const [ sound, setSound ] = useState(false);
+  
+  // console.log('file system: ', documentDirectory('/'))
+  //console.log(FileSystem.getInfoAsync('file:///var/mobile/Containers/Data/Application/DCF18F42-258F-4586-80CF-CE7948510CC2/Library/Caches/ExponentExperienceData/%2540anonymous%252Fios-prototype-03daae2b-14fe-47cc-8fa3-ec133b5aeecd/AV/'))
+  const savedDir = FileSystem.documentDirectory + '../../'
+  console.log('Dir: ', savedDir)
+  console.log('doc dir: ', FileSystem.readDirectoryAsync('file:///var/mobile/Containers/Data/Application/').then(r => console.log(r)))
+
 
   let openImagePickerAsync = async () => {
     let permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -46,9 +54,8 @@ export default function App() {
     console.log('Recording resource stored at: ', uri);
     setSavedRecordings([...savedRecordings, uri ]);
   };
-
+  
   const playSound = async (recording) => {
-    console.log(recording)
     const { sound } = await Audio.Sound.createAsync({ uri: recording, shouldPlay: true });
     setSound(sound);
     await sound.playAsync();
