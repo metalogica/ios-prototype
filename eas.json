@@ -1,0 +1,14 @@
+{
+  "builds": {
+    "ios": {
+      "release": {
+        "workflow": "managed"
+      },
+      "development": {
+        "workflow": "managed",
+        "buildType": "development-client",
+        "distribution": "internal"
+      }
+    }
+  }
+}
