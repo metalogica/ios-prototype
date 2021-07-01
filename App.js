@@ -46,7 +46,6 @@ export default function App() {
     }
   };
 
-
   const stopRecording = async () => {
     setRecording(false);
     await recording.stopAndUnloadAsync();
